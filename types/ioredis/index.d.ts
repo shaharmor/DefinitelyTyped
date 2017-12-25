@@ -743,9 +743,16 @@ declare namespace IORedis {
 
         pfcount(...keys: string[]): Pipeline;
     }
+    
+    interface IClusterNode {
+        host?: string;
+        port?: number;
+    }
+    
+    type ClusterNode = string | number | IClusterNode;
 
     interface Cluster extends NodeJS.EventEmitter, Commander {
-        new(nodes: Array<{ host: string; port: number; }>, options?: ClusterOptions): Redis;
+        new(nodes: ClusterNode[], options?: ClusterOptions): Redis;
         connect(callback: () => void): Promise<any>;
         disconnect(): void;
         nodes(role: string): Redis[];
